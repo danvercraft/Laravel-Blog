@@ -1,11 +1,20 @@
 @php
     $groups = [
-        'Platform' => [
+        'Modulo Principal' => [
             [
                 'name' => 'Inicio',
                 'icon' => 'home',
                 'url' => route('dashboard'),
                 'active' => request()->routeIs('dashboard')
+            ],
+        ],
+
+        'Configuraciones' => [
+            [
+                'name' => 'Categorias Financieras',
+                'icon' => 'tag',
+                'url' => route('finance-category.index'),
+                'active' => request()->routeIs('finance-category')
             ],
         ],
     ];
@@ -46,7 +55,7 @@
 
                 {{-- Repositorio Github --}}
                 <flux:navlist.item icon="command-line" href="https://github.com/danvercraft/Laravel-Blog.git" target="_blank">
-                {{ __('Repository') }}
+                {{ __('Repositorio Git') }}
                 </flux:navlist.item>
             </flux:navlist>
 
