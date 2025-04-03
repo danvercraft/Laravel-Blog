@@ -1,7 +1,7 @@
 <x-layouts.app :title="__('Agregar Categoría Financiera')">
     <div class="max-w-2xl mx-auto p-4 rounded-lg shadow-md dark:bg-neutral-800">
         <h1 class="text-xl font-bold text-gray-900 dark:text-neutral-200 mb-4">{{ __('Agregar Categoría Financiera') }}</h1>
-        <form action="{{ route('finance_categories.store') }}" method="POST">
+        <form action="{{ route('finance-categories.store') }}" method="POST">
             @csrf
             <div class="mb-4">
                 <label for="name" class="block text-sm font-medium  dark:text-neutral-300">{{ __('Nombre') }}</label>

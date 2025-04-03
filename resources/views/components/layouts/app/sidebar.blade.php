@@ -13,7 +13,7 @@
             [
                 'name' => 'Categorias Financieras',
                 'icon' => 'tag',
-                'url' => route('finance-category.index'),
+                'url' => route('finance-categories.index'),
                 'active' => request()->routeIs('finance-category')
             ],
         ],

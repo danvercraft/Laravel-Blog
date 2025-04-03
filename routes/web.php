@@ -19,9 +19,18 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 
-    Route::get('/finance-categories', [FinanceCategoryController::class, 'index'])->name('finance-category.index');
-    Route::get('/finance_categories/create', [FinanceCategoryController::class, 'create'])->name('finance_categories.create');
-    Route::post('/finance_categories', [FinanceCategoryController::class, 'store'])->name('finance_categories.store');
-});
+    Route::resource('finance_categories', FinanceCategoryController::class)
+        ->names([
+            'index' => 'finance-categories.index',
+            'create' => 'finance-categories.create',
+            'store' => 'finance-categories.store',
+            'show' => 'finance-categories.show',
+            'edit' => 'finance-categories.edit',
+            'update' => 'finance-categories.update',
+            'destroy' => 'finance-categories.destroy',
+        ]);
+
+        
+}); 
 
 require __DIR__.'/auth.php';

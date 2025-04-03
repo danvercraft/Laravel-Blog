@@ -7,8 +7,11 @@ use App\Http\Requests\StoreFinanceCategoryRequest;
 use App\Http\Requests\UpdateFinanceCategoryRequest;
 use Illuminate\Http\Request;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 class FinanceCategoryController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -44,7 +47,7 @@ class FinanceCategoryController extends Controller
             'color' => 'dark',
         ]);
 
-        return redirect()->route('finance-category.index')->with('success', __('Categoría financiera creada exitosamente.'));
+        return redirect()->route('finance-categories.index')->with('success', __('Categoría financiera creada exitosamente.'));
     }
 
     /**
@@ -66,9 +69,16 @@ class FinanceCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateFinanceCategoryRequest $request, FinanceCategory $financeCategory)
+    public function update(Request $request, FinanceCategory $financeCategory)
     {
-        //
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+        ]);
+        $financeCategory->update($request->only(['name', 'description']));
+
+        return redirect()->route('finance-categories.index')->with('success', __('Categoría financiera actualizada exitosamente.'));
     }
 
     /**
@@ -76,6 +86,8 @@ class FinanceCategoryController extends Controller
      */
     public function destroy(FinanceCategory $financeCategory)
     {
-        //
+        $financeCategory->delete();
+
+        return redirect()->route('finance-categories.index')->with('success', __('Categoría financiera eliminada exitosamente.'));
     }
 }
