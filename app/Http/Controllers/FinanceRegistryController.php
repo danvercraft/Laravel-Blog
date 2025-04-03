@@ -3,64 +3,68 @@
 namespace App\Http\Controllers;
 
 use App\Models\FinanceRegistry;
-use App\Http\Requests\StoreFinanceRegistryRequest;
-use App\Http\Requests\UpdateFinanceRegistryRequest;
+use App\Models\FinanceCategory;
+use Illuminate\Http\Request;
 
 class FinanceRegistryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+
+        $financeRegistries = FinanceRegistry::with('financeCategory')->get();
+        $totalIngresos = FinanceRegistry::where('type', 'Ingreso')->sum('amount');
+        $totalEgresos = FinanceRegistry::where('type', 'Egreso')->sum('amount');
+        $balance = $totalIngresos - $totalEgresos;
+
+        return view('finance_registries.index', compact('financeRegistries', 'balance'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $categories = FinanceCategory::all();
+        return view('finance_registries.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreFinanceRegistryRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'description' => 'required|string|max:255',
+            'type' => 'required|string|in:Ingreso,Egreso',
+            'amount' => 'required|numeric',
+            'finance_category_id' => 'required|exists:finance_categories,id',
+        ]);
+
+        FinanceRegistry::create($request->all());
+        return redirect()->route('finance-registries.index')->with('success', 'Finance registry created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(FinanceRegistry $financeRegistry)
     {
-        //
+        return view('finance_registries.show', compact('financeRegistry'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(FinanceRegistry $financeRegistry)
     {
-        //
+        $categories = FinanceCategory::all();
+        return view('finance_registries.edit', compact('financeRegistry', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateFinanceRegistryRequest $request, FinanceRegistry $financeRegistry)
+    public function update(Request $request, FinanceRegistry $financeRegistry)
     {
-        //
+        $request->validate([
+            'description' => 'required|string|max:255',
+            'type' => 'required|string|in:Ingreso,Egreso',
+            'amount' => 'required|numeric',
+            'finance_category_id' => 'required|exists:finance_categories,id',
+        ]);
+
+        $financeRegistry->update($request->all());
+        return redirect()->route('finance_registries.index')->with('success', 'Finance registry updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(FinanceRegistry $financeRegistry)
     {
-        //
+        $financeRegistry->delete();
+        return redirect()->route('finance_registries.index')->with('success', 'Finance registry deleted successfully.');
     }
 }

@@ -17,4 +17,9 @@ class FinanceCategory extends Model
         'icon',
         'color',
     ];
+
+    public function financeRegistries()
+    {
+        return $this->hasMany(FinanceRegistry::class);
+    }
 }

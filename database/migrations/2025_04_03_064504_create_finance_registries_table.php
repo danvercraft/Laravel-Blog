@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('finance_registries', function (Blueprint $table) {
             $table->id();
+            $table->string('description');
+            $table->decimal('amount', 10, 2);
+            $table->enum('type', ['Ingreso', 'Egreso']);
+            $table->foreignId('finance_category_id')->constrained('finance_categories')->onDelete('cascade');
             $table->timestamps();
         });
     }
