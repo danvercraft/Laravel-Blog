@@ -7,6 +7,12 @@
                 'url' => route('dashboard'),
                 'active' => request()->routeIs('dashboard')
             ],
+            [
+                'name' => 'Registro Financiero',
+                'icon' => 'banknotes',
+                'url' => route('finance-registries.index'),
+                'active' => request()->routeIs('finance-registries.index')
+            ],
         ],
 
         'Configuraciones' => [
@@ -14,7 +20,7 @@
                 'name' => 'Categorias Financieras',
                 'icon' => 'tag',
                 'url' => route('finance-categories.index'),
-                'active' => request()->routeIs('finance-category')
+                'active' => request()->routeIs('finance-categories.index')
             ],
         ],
     ];

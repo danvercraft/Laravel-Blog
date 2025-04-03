@@ -55,7 +55,8 @@ class FinanceCategoryController extends Controller
      */
     public function show(FinanceCategory $financeCategory)
     {
-        //
+
+        return view('finance_categories.show', compact('financeCategory'));
     }
 
     /**
